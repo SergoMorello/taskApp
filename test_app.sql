@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2021 at 01:28 PM
+-- Generation Time: May 31, 2021 at 01:38 PM
 -- Server version: 5.5.25
 -- PHP Version: 7.0.10
 
@@ -52,6 +52,26 @@ INSERT INTO `tasklist` (`id`, `login`, `email`, `text`, `stat`) VALUES
 (11, 'fdsf', 'egd', 'egwd', 0),
 (12, 'fdsf Р°РІСѓРїР°РІС‹Рї', 'РїРІС‹РїРІС‹Рї', 'СѓРїРІС‹Рї', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userlist`
+--
+
+CREATE TABLE `userlist` (
+  `id` int(10) NOT NULL,
+  `login` varchar(255) NOT NULL,
+  `pass` varchar(255) NOT NULL,
+  `admin` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=cp1251;
+
+--
+-- Dumping data for table `userlist`
+--
+
+INSERT INTO `userlist` (`id`, `login`, `pass`, `admin`) VALUES
+(1, 'admin', '202cb962ac59075b964b07152d234b70', 1);
+
 --
 -- Indexes for dumped tables
 --
@@ -63,6 +83,12 @@ ALTER TABLE `tasklist`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `userlist`
+--
+ALTER TABLE `userlist`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -71,6 +97,11 @@ ALTER TABLE `tasklist`
 --
 ALTER TABLE `tasklist`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `userlist`
+--
+ALTER TABLE `userlist`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
