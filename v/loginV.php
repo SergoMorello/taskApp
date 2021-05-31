@@ -1,7 +1,5 @@
-<?php $this->include("htmlHead",array("title"=>"Форма входа")); ?>
-<h1>Форма входа</h1>
-<?php $this->include("htmlMenu");
-
+<?php $this->include("htmlHead",array("name"=>"Профиль")); ?>
+<?php 
 if ($this->controller->get['type']=="error") {
 ?>
 	<div class="alert alert-warning" role="alert">
@@ -22,8 +20,14 @@ if ($this->controller->get['type']=="error") {
 			
 	?>
 	<form method="post" action="/login/do/submit">
-		<div class="mb-3"><input class="form-control" type="text" name="login" placeholder="Логин" required /></div>
-		<div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Пароль" required /></div>
+		<div class="form-floating mb-3">
+			<input class="form-control" type="text" name="login" id="login" placeholder="Логин" required />
+			<label for="login">Логин</label>
+		</div>
+		<div class="form-floating mb-3">
+			<input class="form-control" type="password" name="password" id="password" placeholder="Пароль" required />
+			<label for="password">Пароль</label>
+		</div>
 		<div class="mb-3"><input class="btn btn-primary" type="submit" value="Войти"/></div>
 	</form>
 	<?php } ?>

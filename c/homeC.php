@@ -1,7 +1,7 @@
 <?php
 class home extends controller {
 	public $propRequest,$ofsppg,$numItems;
-	function __construct($obj) {
+	function main($obj) {
 		$this->useModel();
 		$this->propRequest = (object)array("page"=>$obj['get']['page'],"name"=>$obj['get']['name'],"type"=>$obj['get']['type']);
 		$this->ofsppg = 3;

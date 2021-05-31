@@ -1,13 +1,12 @@
 <?php
 class router extends core {
 	private $pagesArr;
-	public $view,$controller,$objController,$model;
+	public $view,$objController;
 	function __construct() {
 		parent::__construct();
-		$this->controller = new controller($this);
-		$this->view = new view();
-		$this->pagesArr = array();	
-		//print_r($this->data());
+		$this->view = new view;
+		$this->pagesArr = array();
+		$this->objController = array();
 	}
 	public function getUrl() {
 		return $_GET['route']=="" ? "/" : "/".$_GET['route'];
@@ -25,14 +24,18 @@ class router extends core {
 		foreach($this->getPages() as $page) {
 			if (file_exists($this->dirC.$page['page']."C.php")) {
 				require_once($this->dirC.$page['page'].'C.php');
+				$this->objController[$page['page']] = new $page['page'](array("url"=>$page['url'],"post"=>$page['post'],"get"=>$page['get']));
 			}
 		}
 	}
 	function run() {
+		
 		$this->addControllers();
 		$arrPage = $this->getPage();
-		if (file_exists($this->dirC.$arrPage['page']."C.php"))
-			$this->view->pushControllerObj($this->controller->gen($arrPage['page'],array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get'])));	
+		if (file_exists($this->dirC.$arrPage['page']."C.php")) {
+			$this->view->setController($this->objController[$arrPage['page']]);
+			$this->objController[$arrPage['page']]->main(array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get']));
+		}
 		if ($arrPage['callback']) {
 			$callbackType = is_string($arrPage['callback']) ? array($this,$arrPage['callback']) : $arrPage['callback'];
 			call_user_func_array($callbackType,array("obj"=>$this));

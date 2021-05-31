@@ -1,10 +1,9 @@
 <?php
 class controller extends core {
-	protected $dataArr;
-	public $main,$model;
-	function __construct($obj) {
-		$this->main = $obj;
-		
+	protected $dataArr,$model;
+	
+	function setModel($model) {
+		$this->model = $model;
 	}
 	function gen($page,$data=array()) {
 		return new $page($data);

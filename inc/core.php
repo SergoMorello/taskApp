@@ -1,9 +1,13 @@
 <?php
 class core {
-	protected $data,$dirC;
+	protected $data,$dirC,$dirM,$db;
 	function __construct() {
 		$this->dirC = "c/";	
+		$this->dirM = "m/";
 	}
+	// function __destruct() {
+		// $this->dblink->disconnect();
+	// }
 	function redirect($page) {
 		header("Location:".$page);
 		die();
@@ -18,4 +22,5 @@ class core {
 				return setcookie($key, $arrData['value'], $arrData['date'], "/");
 			}
 	}
+	
 }

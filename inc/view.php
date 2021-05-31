@@ -1,8 +1,12 @@
 <?php
 class view extends core {
-	private $dirV,$objData,$controller;
+	private $dirV,$objData;
+	protected $controller;
 	function __construct() {
 		$this->dirV = "v/";
+	}
+	function setController($controller) {
+		$this->controller = $controller;
 	}
 	function include($page,$data=array()) {
 		$objData = (object)array();
@@ -25,9 +29,5 @@ class view extends core {
 		else
 			echo "file view \"".$page."\" not found";
 		
-	}
-	function pushControllerObj($obj) {
-		//print_r($obj);
-		$this->controller = $obj;
 	}
 }

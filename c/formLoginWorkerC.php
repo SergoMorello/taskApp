@@ -1,6 +1,6 @@
 <?php
 class formLoginWorker extends controller {
-	function __construct($obj) {
+	function main($obj) {
 		$this->useModel();
 		$post = $obj['post'];
 		$login = $post['login'];

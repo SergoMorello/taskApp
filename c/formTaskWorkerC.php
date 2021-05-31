@@ -1,23 +1,26 @@
 <?php
 class formTaskWorker extends controller {
-	function __construct($obj) {
+	function main($obj) {
 		$this->useModel();
 		$post = $obj['post'];
+		$typeRequest = $obj['get']['type'];
+		
+		if (!$post['login'] || !$post['email'] || !$post['text']) {
+			$this->redirect("/newtask");
+			return;
+		}
+		if ($typeRequest=="add") {
+			$id = $this->addTask($post['login'],$post['email'],$post['text']);
+			$this->redirect("/task/".$id);
+		}
 		if (!$this->checkLoginUse()) {
 			$this->redirect("/login");
 			return;
 		}
-		if ($obj['url']=="/task/{id}/submit")
-			$this->addTask($post['login'],$post['email'],$post['text']);
-		if ($obj['url']=="/task/{id}/update") {
+		if ($typeRequest=="update") {
 			$this->editTask($obj['get']['id'],$post['text'],($post['stat'] ? 1 : 0));
-			$this->redirect("/task/".$obj['get']['id']);
+			$this->redirect("/task/".$obj['get']['id']."/ok");
 		}
-		//print_r($this->model->insert("tasklist",array("login"=>$post['login'],"email"=>$post['email'],"text"=>$post['text'],"stat"=>0)));
-		//print_r($model->update("test",array("login"=>123,"email"=>"sergomorello@yandex.ru","text"=>"test"),"id=6"));
-		//print_r($model->delete("test","id=7"));
-		//print_r($model->selectRow("test","*","id=6"));
-		//print_r($model->selectList("test","*","id=6"));
 	}
 	private function addTask($login,$email,$text) {
 		return $this->model->insert("tasklist",array("login"=>$login,"email"=>$email,"text"=>$text,"stat"=>0));

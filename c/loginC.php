@@ -1,7 +1,7 @@
 <?php
 class login extends controller {
 	public $get;
-	function __construct($obj) {
+	function main($obj) {
 		$this->useModel();
 		$this->get = $obj['get'];
 	}
