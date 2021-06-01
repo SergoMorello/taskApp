@@ -34,10 +34,8 @@ class router extends core {
 			if (method_exists($controller,"main"))
 				$controller->main(array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get']));
 		}
-		if ($arrPage['callback']) {
-			$callbackType = is_string($arrPage['callback']) ? array($this,$arrPage['callback']) : $arrPage['callback'];
+		if ($arrPage['callback'])
 			echo call_user_func_array($arrPage['callback'],(is_string($arrPage['callback']) && $arrPage['params'] ? $arrPage['params'] : array($this)));
-		}
 	}
 	private function getPage() {
 		$pages = $this->getPages();
