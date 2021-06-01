@@ -1,7 +1,7 @@
 <?php
 class router extends core {
 	private $pagesArr;
-	public $view;
+	public $protected;
 	function __construct() {
 		parent::__construct();
 		$this->connectDB();
@@ -31,11 +31,12 @@ class router extends core {
 		if (file_exists(self::$dirC.$arrPage['page']."C.php")) {
 			$controller = new $arrPage['page'](array("url"=>$page['url'],"post"=>$page['post'],"get"=>$page['get']));
 			$this->view->setController($controller);
-			$controller->main(array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get']));
+			if (method_exists($controller,"main"))
+				$controller->main(array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get']));
 		}
 		if ($arrPage['callback']) {
 			$callbackType = is_string($arrPage['callback']) ? array($this,$arrPage['callback']) : $arrPage['callback'];
-			call_user_func_array($callbackType,array($this));
+			echo call_user_func_array($callbackType,array($this));
 		}
 	}
 	private function getPage() {

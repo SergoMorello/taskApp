@@ -1,6 +1,5 @@
 <?php $this->include("htmlHead",array("name"=>"Главная")); ?>
 <?php $listTasks = $this->controller->getList();
-
 if ($listTasks) {
 	$page = $this->controller->propRequest->page ? $this->controller->propRequest->page : 0;
 	echo "<table class='table'>";

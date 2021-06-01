@@ -1,6 +1,5 @@
 <?php
 abstract class core {
-	protected $data;
 	static $dblink,$dirM,$dirV,$dirC;
 	function __construct() {
 		self::$dirM = "m/";
@@ -31,5 +30,4 @@ abstract class core {
 				return setcookie($key, $arrData['value'], $arrData['date'], "/");
 			}
 	}
-	
 }
