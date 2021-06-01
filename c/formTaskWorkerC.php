@@ -5,7 +5,6 @@ class formTaskWorker extends controller {
 		$post = $obj['post'];
 		$typeRequest = $obj['get']['type'];
 		
-		
 		if ($typeRequest=="add") {
 			if (!$post['login'] || !$post['email'] || !$post['text']) {
 				$this->redirect("/newtask");
@@ -14,7 +13,7 @@ class formTaskWorker extends controller {
 			$id = $this->addTask($post['login'],$post['email'],$post['text']);
 			$this->redirect("/task/".$id);
 		}
-		if (!$this->checkLoginUse()) {
+		if (!$this->model->checkLoginUse()) {
 			$this->redirect("/login");
 			return;
 		}

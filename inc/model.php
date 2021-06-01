@@ -1,13 +1,5 @@
 <?php
 class model extends core {
-	//private $dblink;
-	function __construct() {
-		// $this->dblink = new database();
-		// $this->dblink->connect();
-	}
-	function __destruct() {
-		// $this->dblink->disconnect();
-	}
 	public function insert($table,$params) {
 		if (is_array($params))
 			if ($id=self::$dblink->query("INSERT INTO ".$table." (id,".implode(",",array_keys($params)).") VALUES (NULL,'".implode("','",$params)."')",true))

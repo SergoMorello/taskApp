@@ -11,11 +11,11 @@ class router extends core {
 	function __destruct() {
 		$this->disconnectDB();
 	}
-	public function get($url,$page,$callback="") {
-		array_push($this->pagesArr,array("url"=>$url,"page"=>$page,"method"=>"get","callback"=>$callback));
+	public function get($url,$page,$callback="",$params=array()) {
+		array_push($this->pagesArr,array("url"=>$url,"page"=>$page,"method"=>"get","callback"=>$callback,"params"=>$params));
 	}
-	public function post($url,$page,$callback="") {
-		array_push($this->pagesArr,array("url"=>$url,"page"=>$page,"method"=>"post","post"=>$this->data()->post,"callback"=>$callback));
+	public function post($url,$page,$callback="",$params=array()) {
+		array_push($this->pagesArr,array("url"=>$url,"page"=>$page,"method"=>"post","post"=>$this->data()->post,"callback"=>$callback,"params"=>$params));
 	}
 	function getPages() {
 		return $this->pagesArr;
@@ -29,14 +29,14 @@ class router extends core {
 		$this->addControllers();
 		$arrPage = $this->getPage();
 		if (file_exists(self::$dirC.$arrPage['page']."C.php")) {
-			$controller = new $arrPage['page'](array("url"=>$page['url'],"post"=>$page['post'],"get"=>$page['get']));
+			$controller = new $arrPage['page'](array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get']));
 			$this->view->setController($controller);
 			if (method_exists($controller,"main"))
 				$controller->main(array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get']));
 		}
 		if ($arrPage['callback']) {
 			$callbackType = is_string($arrPage['callback']) ? array($this,$arrPage['callback']) : $arrPage['callback'];
-			echo call_user_func_array($callbackType,array($this));
+			echo call_user_func_array($arrPage['callback'],(is_string($arrPage['callback']) && $arrPage['params'] ? $arrPage['params'] : array($this)));
 		}
 	}
 	private function getPage() {

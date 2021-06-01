@@ -10,10 +10,14 @@ if ($this->controller->get['type']=="error") {
 ?>
 <div class="input-group mb-3">
 	<?php
-		if ($this->controller->checkLoginUse()) {
+		if ($rowUser=$this->controller->checkLogin) {		
 	?>
 	<form method="post" action="/login/do/logout">
-		<div><input class="btn btn-primary" type="submit" value="Выйти"/></div>
+		<div class="form-floating mb-3">
+			<input class="form-control" type="text" id="login" placeholder="Логин" value="<?php echo $rowUser['login']; ?>" disabled />
+			<label for="login">Логин</label>
+		</div>
+		<div class="mb-3"><input class="btn btn-primary" type="submit" value="Выйти"/></div>
 	</form>
 	<?php
 		}else{

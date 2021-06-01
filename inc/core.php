@@ -14,7 +14,8 @@ abstract class core {
 		self::$dblink->disconnect();
 	}
 	public function getUrl() {
-		return $_GET['route']=="" ? "/" : "/".$_GET['route'];
+		$path = $this->data()->get['route'];
+		return $path=="" ? "/" : "/".$path;
 	}
 	function redirect($page) {
 		header("Location:".$page);
@@ -22,6 +23,12 @@ abstract class core {
 	}
 	function data() {
 		return (object)array("get"=>$_GET,"post"=>$_POST,"cookie"=>$_COOKIE);
+	}
+	function request() {
+		return (object)$this->data()->get;
+	}
+	function input() {
+		return (object)$this->data()->post;
 	}
 	function addCookie($arr) {
 		if (is_array($arr))

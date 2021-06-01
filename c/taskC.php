@@ -4,6 +4,7 @@ class task extends controller {
 	public $type;
 	function main($obj) {
 		$this->model("db");
+		$this->checkLogin = $this->model->checkLoginUse();
 		$this->obj = $obj;
 		$this->type = $obj['get']['type'];
 	}

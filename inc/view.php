@@ -16,7 +16,7 @@ class view extends core {
 			$this->controller = $this->controller();
 			require_once(self::$dirV.$view.'V.php');
 		}else
-			echo "file view \"".$view."\" not found";
+			view::error("View \"".$view."\" not found");
 	}
 	function include($page,$data=array()) {
 		$this->addView($page,$data);
@@ -24,5 +24,9 @@ class view extends core {
 	static function show($page,$data=array()) {
 		$view = new view;
 		$view->addView($page,$data);
+	}
+	static function error($message) {
+		echo $message;
+		die();
 	}
 }

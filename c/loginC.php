@@ -4,5 +4,6 @@ class login extends controller {
 	function main($obj) {
 		$this->model("db");
 		$this->get = $obj['get'];
+		$this->checkLogin = $this->model->checkLoginUse();
 	}
 }

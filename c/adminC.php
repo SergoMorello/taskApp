@@ -1,7 +1,7 @@
 <?php
 class admin extends controller {
 	function main($obj) {
-		$this->useModel();
+		$this->model("db");
 		if (!$this->checkLoginUse())
 			$this->redirect("/login");
 	}

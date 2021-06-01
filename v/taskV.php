@@ -20,7 +20,7 @@ if ($arrTask) {
 			<input class="form-control" type="text" id="email" placeholder="Почта" value="<?php echo $arrTask['email']; ?>" disabled />
 			<label for="email">Почта</label>
 		</div>
-		<?php if ($this->controller->checkLoginUse()) { ?>
+		<?php if ($this->controller->checkLogin['admin']>0) { ?>
 		<form method="post" action="/taskdo/update/<?php echo $arrTask['id']; ?>">
 			<div class="form-floating mb-3">
 				<textarea class="form-control" name="text" placeholder="Текст задачи"><?php echo $arrTask['text']; ?></textarea>
