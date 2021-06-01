@@ -2,9 +2,9 @@
 class formLoginWorker extends controller {
 	function main($obj) {
 		$this->model("db");
-		$post = $obj['post'];
-		$login = $post['login'];
-		$pass = md5($post['password']);
+		$input = $this->input();
+		$login = $input->login;
+		$pass = md5($input->password);
 		
 		if ($obj['get']['type']=="submit")
 			if ($id = $this->checkLogin($login,$pass)) {

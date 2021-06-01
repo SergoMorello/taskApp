@@ -7,6 +7,6 @@ require_once('inc/model.php');
 require_once('inc/controller.php');
 require_once('inc/view.php');
 require_once('inc/router.php');
-$router = new router;
+require_once('inc/app.php');
 require_once('routerConf.php');
-$router->run();
+app::run();

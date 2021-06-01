@@ -2,15 +2,15 @@
 class formTaskWorker extends controller {
 	function main($obj) {
 		$this->model("db");
-		$post = $obj['post'];
+		$input = $this->input();
 		$typeRequest = $obj['get']['type'];
-		
+		print_r($obj);
 		if ($typeRequest=="add") {
-			if (!$post['login'] || !$post['email'] || !$post['text']) {
+			if (!$input->login || !$input->email || !$input->text) {
 				$this->redirect("/newtask");
 				return;
 			}
-			$id = $this->addTask($post['login'],$post['email'],$post['text']);
+			$id = $this->addTask($input->login,$input->email,$input->text);
 			$this->redirect("/task/".$id);
 		}
 		if (!$this->model->checkLoginUse()) {
@@ -18,7 +18,7 @@ class formTaskWorker extends controller {
 			return;
 		}
 		if ($typeRequest=="update") {
-			$this->editTask($obj['get']['id'],$post['text'],($post['stat'] ? 1 : 0));
+			$this->editTask($obj['get']['id'],$input->text,($input->stat ? 1 : 0));
 			$this->redirect("/task/".$obj['get']['id']."/ok");
 		}
 	}

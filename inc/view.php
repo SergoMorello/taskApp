@@ -1,6 +1,6 @@
 <?php
 class view extends core {
-	private $objData,$controller;
+	private $controller;
 	static $staticController;
 	function setController($controller) {
 		self::$staticController = $controller;
@@ -21,7 +21,9 @@ class view extends core {
 	function include($page,$data=array()) {
 		$this->addView($page,$data);
 	}
-	static function show($page,$data=array()) {
+	static function show($page="",$data=array()) {
+		if (!$page)
+			view::error("Name page, no use");
 		$view = new view;
 		$view->addView($page,$data);
 	}
