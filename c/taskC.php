@@ -3,7 +3,7 @@ class task extends controller {
 	private $obj;
 	public $type;
 	function main($obj) {
-		$this->useModel();
+		$this->model("db");
 		$this->obj = $obj;
 		$this->type = $obj['get']['type'];
 	}

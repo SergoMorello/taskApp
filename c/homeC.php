@@ -2,7 +2,7 @@
 class home extends controller {
 	public $propRequest,$ofsppg,$numItems;
 	function main($obj) {
-		$this->useModel();
+		$this->model("db");
 		$this->propRequest = (object)array("page"=>$obj['get']['page'],"name"=>$obj['get']['name'],"type"=>$obj['get']['type']);
 		$this->ofsppg = 3;
 	}

@@ -1,15 +1,15 @@
 <?php
 class router extends core {
 	private $pagesArr;
-	public $view,$objController;
+	public $view;
 	function __construct() {
 		parent::__construct();
+		$this->connectDB();
 		$this->view = new view;
 		$this->pagesArr = array();
-		$this->objController = array();
 	}
-	public function getUrl() {
-		return $_GET['route']=="" ? "/" : "/".$_GET['route'];
+	function __destruct() {
+		$this->disconnectDB();
 	}
 	public function get($url,$page,$callback="") {
 		array_push($this->pagesArr,array("url"=>$url,"page"=>$page,"method"=>"get","callback"=>$callback));
@@ -21,24 +21,21 @@ class router extends core {
 		return $this->pagesArr;
 	}
 	private function addControllers() { 
-		foreach($this->getPages() as $page) {
-			if (file_exists($this->dirC.$page['page']."C.php")) {
-				require_once($this->dirC.$page['page'].'C.php');
-				$this->objController[$page['page']] = new $page['page'](array("url"=>$page['url'],"post"=>$page['post'],"get"=>$page['get']));
-			}
-		}
+		foreach($this->getPages() as $page)
+			if (file_exists(self::$dirC.$page['page']."C.php"))
+				require_once(self::$dirC.$page['page'].'C.php');
 	}
 	function run() {
-		
 		$this->addControllers();
 		$arrPage = $this->getPage();
-		if (file_exists($this->dirC.$arrPage['page']."C.php")) {
-			$this->view->setController($this->objController[$arrPage['page']]);
-			$this->objController[$arrPage['page']]->main(array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get']));
+		if (file_exists(self::$dirC.$arrPage['page']."C.php")) {
+			$controller = new $arrPage['page'](array("url"=>$page['url'],"post"=>$page['post'],"get"=>$page['get']));
+			$this->view->setController($controller);
+			$controller->main(array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get']));
 		}
 		if ($arrPage['callback']) {
 			$callbackType = is_string($arrPage['callback']) ? array($this,$arrPage['callback']) : $arrPage['callback'];
-			call_user_func_array($callbackType,array("obj"=>$this));
+			call_user_func_array($callbackType,array($this));
 		}
 	}
 	private function getPage() {

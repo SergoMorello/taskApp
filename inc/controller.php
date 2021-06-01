@@ -1,15 +1,18 @@
 <?php
 class controller extends core {
-	protected $dataArr,$model;
+	protected $model;
 	
-	function setModel($model) {
-		$this->model = $model;
-	}
 	function gen($page,$data=array()) {
 		return new $page($data);
 	}
 	function useModel() {
 		$this->model = new model;
+	}
+	function model($model) {
+		if (file_exists(self::$dirM.$model."M.php")) {
+			require_once(self::$dirM.$model.'M.php');
+			$this->model = new $model;
+		}
 	}
 	function checkLoginUse() {
 		if ($this->data()->cookie) {

@@ -1,16 +1,16 @@
 <?php
 class model extends core {
-	private $dblink;
+	//private $dblink;
 	function __construct() {
-		$this->dblink = new database();
-		$this->dblink->connect();
+		// $this->dblink = new database();
+		// $this->dblink->connect();
 	}
 	function __destruct() {
-		$this->dblink->disconnect();
+		// $this->dblink->disconnect();
 	}
 	public function insert($table,$params) {
 		if (is_array($params))
-			if ($id=$this->dblink->query("INSERT INTO ".$table." (id,".implode(",",array_keys($params)).") VALUES (NULL,'".implode("','",$params)."')",true))
+			if ($id=self::$dblink->query("INSERT INTO ".$table." (id,".implode(",",array_keys($params)).") VALUES (NULL,'".implode("','",$params)."')",true))
 				return $id;
 		return false;		
 	}
@@ -19,28 +19,28 @@ class model extends core {
 			$arrQuery = array();
 			foreach($params as $key=>$value)
 				$arrQuery[] = $key."='".$value."'";
-			if ($this->dblink->query("UPDATE ".$table." SET ".implode(",",$arrQuery)." WHERE ".$where))
+			if (self::$dblink->query("UPDATE ".$table." SET ".implode(",",$arrQuery)." WHERE ".$where))
 				return true;
 		}
 		return false;
 	}
 	public function delete($table,$where) {
-		if ($this->dblink->query("DELETE FROM ".$table." WHERE ".$where))
+		if (self::$dblink->query("DELETE FROM ".$table." WHERE ".$where))
 			return true;
 		return false;
 	}
 	public function selectRow($table,$select,$where="",$order="",$limit="") {
-		if ($result=$this->dblink->get_row("SELECT ".$select." FROM ".$table.($where ? " WHERE ".$where : "").($order ? " ORDER BY ".$order : "").($limit ? " LIMIT ".$limit : "")))
+		if ($result=self::$dblink->get_row("SELECT ".$select." FROM ".$table.($where ? " WHERE ".$where : "").($order ? " ORDER BY ".$order : "").($limit ? " LIMIT ".$limit : "")))
 			return $result;
 		return false;
 	}
 	public function selectList($table,$select,$where="",$order="",$limit="") {
-		if ($result=$this->dblink->get_list("SELECT ".$select." FROM ".$table.($where ? " WHERE ".$where : "").($order ? " ORDER BY ".$order : "").($limit ? " LIMIT ".$limit : "")))
+		if ($result=self::$dblink->get_list("SELECT ".$select." FROM ".$table.($where ? " WHERE ".$where : "").($order ? " ORDER BY ".$order : "").($limit ? " LIMIT ".$limit : "")))
 			return $result;
 		return false;
 	}
 	public function getNum($table,$select,$where="",$order="",$limit="") {
-		if ($result=$this->dblink->get_num("SELECT ".$select." FROM ".$table.($where ? " WHERE ".$where : "").($order ? " ORDER BY ".$order : "").($limit ? " LIMIT ".$limit : "")))
+		if ($result=self::$dblink->get_num("SELECT ".$select." FROM ".$table.($where ? " WHERE ".$where : "").($order ? " ORDER BY ".$order : "").($limit ? " LIMIT ".$limit : "")))
 			return $result;
 		return false;
 	}

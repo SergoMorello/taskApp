@@ -1,7 +1,7 @@
 <?php
 class formLoginWorker extends controller {
 	function main($obj) {
-		$this->useModel();
+		$this->model("db");
 		$post = $obj['post'];
 		$login = $post['login'];
 		$pass = md5($post['password']);

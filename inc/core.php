@@ -1,13 +1,22 @@
 <?php
-class core {
-	protected $data,$dirC,$dirM,$db;
+abstract class core {
+	protected $data;
+	static $dblink,$dirM,$dirV,$dirC;
 	function __construct() {
-		$this->dirC = "c/";	
-		$this->dirM = "m/";
+		self::$dirM = "m/";
+		self::$dirV = "v/";
+		self::$dirC = "c/";
 	}
-	// function __destruct() {
-		// $this->dblink->disconnect();
-	// }
+	function connectDB() {
+		self::$dblink = new database();
+		self::$dblink->connect();
+	}
+	function disconnectDB() {
+		self::$dblink->disconnect();
+	}
+	public function getUrl() {
+		return $_GET['route']=="" ? "/" : "/".$_GET['route'];
+	}
 	function redirect($page) {
 		header("Location:".$page);
 		die();

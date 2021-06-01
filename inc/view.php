@@ -1,33 +1,24 @@
 <?php
 class view extends core {
-	private $dirV,$objData;
+	private $objData;
 	protected $controller;
-	function __construct() {
-		$this->dirV = "v/";
-	}
 	function setController($controller) {
 		$this->controller = $controller;
 	}
+	private function addView($view,$data=array()) {
+		if (file_exists(self::$dirV.$view."V.php")) {
+			if ($data)
+				foreach($data as $key=>$dataIt)
+					${$key} = $dataIt;
+			require_once(self::$dirV.$view.'V.php');
+		}else
+			echo "file view \"".$view."\" not found";
+	}
 	function include($page,$data=array()) {
-		$objData = (object)array();
-		if ($data)
-			foreach($data as $key=>$dataIt) {
-				${$key} = $dataIt;
-			}
-		if (file_exists($this->dirV.$page."V.php"))
-			require_once($this->dirV.$page.'V.php');
-		else
-			echo "file view \"".$page."\" not found";
+		$this->addView($page,$data);
 	}
 	function show($page,$data=array()) {
-		if ($data)
-			foreach($data as $key=>$dataIt) {
-				$this->objData->$key = $dataIt;
-			}
-		if (file_exists($this->dirV.$page."V.php"))
-			require_once($this->dirV.$page.'V.php');
-		else
-			echo "file view \"".$page."\" not found";
+		$this->addView($page,$data);
 		
 	}
 }

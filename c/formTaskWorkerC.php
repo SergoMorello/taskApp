@@ -1,7 +1,7 @@
 <?php
 class formTaskWorker extends controller {
 	function main($obj) {
-		$this->useModel();
+		$this->model("db");
 		$post = $obj['post'];
 		$typeRequest = $obj['get']['type'];
 		
