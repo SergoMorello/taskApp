@@ -9,4 +9,4 @@ require_once('inc/view.php');
 require_once('inc/router.php');
 require_once('inc/app.php');
 require_once('routerConf.php');
-app::run();
+new app;

@@ -27,7 +27,8 @@ class view extends core {
 		$view = new view;
 		$view->addView($page,$data);
 	}
-	static function error($message) {
+	static function error($message,$code=500) {
+		header($_SERVER['SERVER_PROTOCOL']." ".$code);
 		echo $message;
 		die();
 	}
