@@ -8,10 +8,4 @@ class controller extends core {
 		}else
 			view::error("Model \"".$model."\" not found");
 	}
-	// function checkLoginUse() {
-		// if ($this->data()->cookie) {
-			// $arrLogin = explode(":",$this->data()->cookie['login']);
-			// return $this->model->selectRow("userlist","admin","id='".$arrLogin[0]."' AND login='".$arrLogin[1]."' AND pass='".$arrLogin[2]."'","",1)['admin'];
-		// }
-	// }
 }

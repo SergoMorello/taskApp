@@ -23,7 +23,7 @@ if ($this->controller->get['type']=="error") {
 		}else{
 			
 	?>
-	<form method="post" action="/login/do/submit">
+	<form method="post" action="/login/do/submit" autocomplete="off">
 		<div class="form-floating mb-3">
 			<input class="form-control" type="text" name="login" id="login" placeholder="Логин" required />
 			<label for="login">Логин</label>
