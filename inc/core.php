@@ -28,13 +28,22 @@ abstract class core {
 		return (object)array("get"=>(object)$_GET,"post"=>(object)((self::$pageSelect['method']=="post") ? $_POST : array()),"cookie"=>(object)$_COOKIE);
 	}
 	function request() {
-		return $this->data()->get;
+		return $this->guardData($this->data()->get);
 	}
 	function input() {
-			return $this->data()->post;
+		return $this->guardData($this->data()->post);
 	}
 	function cookie() {
-		return $this->data()->cookie;
+		return $this->guardData($this->data()->cookie);
+	}
+	private function guardData($data) {
+		if (is_array($data) OR $isObj=is_object($data)) {
+			$ret = array();
+			foreach($data as $key=>$val)
+				$ret[$key] = $this->guardData($val);
+			return $isObj ? (object)$ret : $ret;
+		}
+		return htmlspecialchars(addslashes($data));
 	}
 	function addCookie($arr) {
 		if (is_array($arr))
