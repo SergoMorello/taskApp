@@ -1,6 +1,6 @@
 <?php
 abstract class core {
-	static $pagesArr=array(),$dblink,$dirM,$dirV,$dirC;
+	static $pagesArr=array(),$pageSelect,$dblink,$dirM,$dirV,$dirC;
 	function __construct() {
 		self::$dirM = "m/";
 		self::$dirV = "v/";
@@ -14,7 +14,7 @@ abstract class core {
 		self::$dblink->disconnect();
 	}
 	public function getUrl() {
-		$path = $this->data()->get['route'];
+		$path = $this->data()->get->route;
 		return $path=="" ? "/" : "/".$path;
 	}
 	function getPages() {
@@ -24,14 +24,17 @@ abstract class core {
 		header("Location:".$page);
 		die();
 	}
-	function data() {
-		return (object)array("get"=>$_GET,"post"=>$_POST,"cookie"=>$_COOKIE);
+	private function data() {
+		return (object)array("get"=>(object)$_GET,"post"=>(object)((self::$pageSelect['method']=="post") ? $_POST : array()),"cookie"=>(object)$_COOKIE);
 	}
 	function request() {
-		return (object)$this->data()->get;
+		return $this->data()->get;
 	}
 	function input() {
-		return (object)$this->data()->post;
+			return $this->data()->post;
+	}
+	function cookie() {
+		return $this->data()->cookie;
 	}
 	function addCookie($arr) {
 		if (is_array($arr))
@@ -67,11 +70,11 @@ abstract class core {
 					}
 					if ($numSec==$trueSec) {
 						$page['get'] = $dataSec;
-						return $page;
+						return self::$pageSelect = $page;
 					}
 				}
 				if ($this->getUrl()==$page['url'])
-					return $page;
+					return self::$pageSelect = $page;
 			}
 		return array();
 	}

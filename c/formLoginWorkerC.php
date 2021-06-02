@@ -5,7 +5,6 @@ class formLoginWorker extends controller {
 		$input = $this->input();
 		$login = $input->login;
 		$pass = md5($input->password);
-		
 		if ($obj['get']['type']=="submit")
 			if ($id = $this->checkLogin($login,$pass)) {
 				if ($this->setLogin($id,$login,$pass))

@@ -5,7 +5,7 @@ router::get("/","home",function($obj) {
 router::get("/sort/{page}/{name}/{type}","home",function($obj) {
 	view::show("home");
 });
-router::get("/newtask","newtask",function($obj) {
+router::get("/newtask","login",function($obj) {
 	view::show("newtask");
 });
 router::get("/task/{id}","task",function($obj) {

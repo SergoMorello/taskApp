@@ -1,4 +1,4 @@
-<?php $link = $this->data()->get['route']; ?>
+<?php $link = $this->request()->route; ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="navbar-collapse" id="navbarNav">
 		<ul class="navbar-nav">

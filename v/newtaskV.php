@@ -1,8 +1,11 @@
-<?php $this->include("htmlHead",array("name"=>"Новая задача")); ?>
+<?php $this->include("htmlHead",array("name"=>"Новая задача")); 
+$formLogin = $this->controller->checkLogin ? "<input type='hidden' name='login' value='".$this->controller->checkLogin['login']."'/><input class='form-control' type='text' id='login' placeholder='Логин' value='".$this->controller->checkLogin['login']."' disabled required />" 
+: "<input class='form-control' type='text' name='login' id='login' placeholder='Логин' required />";
+?>
 <div class="input-group mb-3">
 	<form method="post" action="/taskdo/add/">
 		<div class="form-floating mb-3">
-			<input class="form-control" type="text" name="login" id="login" placeholder="Логин" required />
+			<?php echo $formLogin; ?>
 			<label for="login">Логин</label>
 		</div>
 		<div class="form-floating mb-3">
