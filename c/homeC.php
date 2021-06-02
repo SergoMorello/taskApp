@@ -3,27 +3,13 @@ class home extends controller {
 	public $propRequest,$ofsppg,$numItems;
 	function main($obj) {
 		$this->model("db");
-		$this->propRequest = (object)array("page"=>$obj['get']['page'],"name"=>$obj['get']['name'],"type"=>$obj['get']['type']);
+		$this->propRequest = (object)array("page"=>$this->props()->page,"name"=>$this->props()->name,"type"=>$this->props()->type);
 		$this->ofsppg = 3;
 	}
 	public function getList() {
-		$page = $this->propRequest->page ? $this->propRequest->page : 1;
-		$name = "login";
-		$type = $this->propRequest->type ? "ASC" : "DESC";
-		switch($this->propRequest->name) {
-			case 1:
-				$name = "email";
-			break;
-			case 2:
-				$name = "stat";
-			break;
-			default:
-				$name = "login";
-		}
-		$result = $this->model->selectList("tasklist","*","",$name." ".$type,(($page*$this->ofsppg)-$this->ofsppg).",".$this->ofsppg);
-		$this->numItems = $this->model->getNum("tasklist","*","",$name." ".$type);
-		
-		return $result;
+		$result = $this->model->listTask($this->propRequest,$this->ofsppg);
+		$this->numItems = $result->num;
+		return $result->list;
 	}
 	public function statName($val) {
 		return $val ? "Выполнено" : "Не выполнено";

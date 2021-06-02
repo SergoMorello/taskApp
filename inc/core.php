@@ -1,6 +1,6 @@
 <?php
 abstract class core {
-	static $pagesArr=array(),$pageSelect,$dblink,$dirM,$dirV,$dirC;
+	static $pagesArr=array(),$pageSelect,$props,$dblink,$dirM,$dirV,$dirC;
 	function __construct() {
 		self::$dirM = "m/";
 		self::$dirV = "v/";
@@ -25,7 +25,10 @@ abstract class core {
 		die();
 	}
 	private function data() {
-		return (object)array("get"=>(object)$_GET,"post"=>(object)((self::$pageSelect['method']=="post") ? $_POST : array()),"cookie"=>(object)$_COOKIE);
+		return (object)array("get"=>(object)$_GET,"post"=>(object)((self::$pageSelect['method']=="post") ? $_POST : array()),"cookie"=>(object)$_COOKIE,"props"=>(object)self::$props);
+	}
+	function props() {
+		return $this->guardData($this->data()->props);
 	}
 	function request() {
 		return $this->guardData($this->data()->get);
@@ -44,13 +47,6 @@ abstract class core {
 			return $isObj ? (object)$ret : $ret;
 		}
 		return htmlspecialchars(addslashes($data));
-	}
-	function addCookie($arr) {
-		if (is_array($arr))
-			foreach($arr as $key=>$val) {
-				$arrData = is_array($val) ? $val : array("value"=>$val,"date"=>(time()+(3600*24*30)));
-				return setcookie($key, $arrData['value'], $arrData['date'], "/");
-			}
 	}
 	function addControllers() { 
 		foreach($this->getPages() as $page)
@@ -78,7 +74,7 @@ abstract class core {
 						}
 					}
 					if ($numSec==$trueSec) {
-						$page['get'] = $dataSec;
+						self::$props = $dataSec;
 						return self::$pageSelect = $page;
 					}
 				}

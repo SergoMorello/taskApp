@@ -36,4 +36,11 @@ class model extends core {
 			return $result;
 		return false;
 	}
+	public function addCookie($arr) {
+		if (is_array($arr))
+			foreach($arr as $key=>$val) {
+				$arrData = is_array($val) ? $val : array("value"=>$val,"date"=>(time()+(3600*24*30)));
+				return setcookie($key, $arrData['value'], $arrData['date'], "/");
+			}
+	}
 }

@@ -6,9 +6,9 @@ class task extends controller {
 		$this->model("db");
 		$this->checkLogin = $this->model->checkLoginUse();
 		$this->obj = $obj;
-		$this->type = $obj['get']['type'];
+		$this->type = $this->props()->type;
 	}
 	public function getTask() {
-		return $this->model->selectRow("tasklist","*","id=".$this->obj['get']['id']);
+		return $this->model->getTask($this->props()->id);
 	}
 }

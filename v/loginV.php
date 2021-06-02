@@ -1,6 +1,6 @@
 <?php $this->include("htmlHead",array("name"=>"Профиль")); ?>
 <?php 
-if ($this->controller->get['type']=="error") {
+if ($this->props()->type=="error") {
 ?>
 	<div class="alert alert-warning" role="alert">
 		Вход не выполнен

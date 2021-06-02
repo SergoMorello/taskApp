@@ -25,8 +25,7 @@ class app extends router {
 		$this->disconnectDB();
 	}
 	function obReplace($buffer) {
-		$test = array("test"=>"123");
-		$buffer = preg_replace_callback("/\{(.*)\}/", function($var){
+		$buffer = preg_replace_callback("/\{{(.*)\}}/", function($var){
 			$nameObj = $var[1];
 				if (preg_match("/(.*)\((.*)\)/",$nameObj,$var2)) {
 					$nameObjFnc = $var2[1];
