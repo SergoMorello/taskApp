@@ -1,6 +1,5 @@
-<?php $this->include("htmlHead",array("name"=>"Админка")); ?>
+@extends('mainHtml')
+@section('title')Админка@endsection
+@section('content')
 
-
-
-
-<?php $this->include("htmlBottom"); ?>
+@endsection

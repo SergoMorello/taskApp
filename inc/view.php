@@ -14,18 +14,20 @@ class view extends core {
 				foreach($data as $key=>$dataIt)
 					${$key} = $dataIt;
 			$this->controller = $this->controller();
+			ob_start();
 			require_once(self::$dirV.$view.'V.php');
+			return ob_get_clean();
 		}else
 			view::error("View \"".$view."\" not found");
 	}
 	function include($page,$data=array()) {
-		$this->addView($page,$data);
+		return $this->addView($page,$data);
 	}
 	static function show($page="",$data=array()) {
 		if (!$page)
-			view::error("Name page, no use");
+			view::error("Name page, is empty");
 		$view = new view;
-		$view->addView($page,$data);
+		return $view->addView($page,$data);
 	}
 	static function error($message,$code=500) {
 		header($_SERVER['SERVER_PROTOCOL']." ".$code);

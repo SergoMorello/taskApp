@@ -1,4 +1,5 @@
-<?php $this->include("htmlHead",array("name"=>"Задача")); ?>
+@extends('mainHtml')
+@section('content')
 <?php 
 $arrTask = $this->controller->getTask(); 
 if ($arrTask) {
@@ -44,4 +45,4 @@ if ($arrTask) {
 }
 	
 ?>
-<?php $this->include("htmlBottom"); ?>
+@endsection

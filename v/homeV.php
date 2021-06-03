@@ -1,5 +1,6 @@
-<?php $this->include("htmlHead",array("name"=>"Главная")); ?>
-
+@extends('mainHtml')
+@section('title')Главная@endsection
+@section('content')
 <?php $listTasks = $this->controller->getList();
 if ($listTasks) {
 	$page = $this->controller->propRequest->page ? $this->controller->propRequest->page : 0;
@@ -34,4 +35,4 @@ if ($listTasks) {
 	}
 }
 ?>
-<?php $this->include("htmlBottom"); ?>
+@endsection

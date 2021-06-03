@@ -5,6 +5,7 @@ class home extends controller {
 		$this->model("db");
 		$this->propRequest = (object)array("page"=>$this->props()->page,"name"=>$this->props()->name,"type"=>$this->props()->type);
 		$this->ofsppg = 3;
+		$this->test = 123;
 	}
 	public function getList() {
 		$result = $this->model->listTask($this->propRequest,$this->ofsppg);

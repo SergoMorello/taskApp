@@ -1,5 +1,7 @@
-<?php $this->include("htmlHead",array("name"=>"Новая задача")); 
-$formLogin = $this->controller->checkLogin ? "<input type='hidden' name='login' value='".$this->controller->checkLogin['login']."'/><input class='form-control' type='text' id='login' placeholder='Логин' value='".$this->controller->checkLogin['login']."' disabled required />" 
+@extends('mainHtml')
+@section('title')Новая задача@endsection
+@section('content')
+<?php $formLogin = $this->controller->checkLogin ? "<input type='hidden' name='login' value='".$this->controller->checkLogin['login']."'/><input class='form-control' type='text' id='login' placeholder='Логин' value='".$this->controller->checkLogin['login']."' disabled required />" 
 : "<input class='form-control' type='text' name='login' id='login' placeholder='Логин' required />";
 ?>
 <div class="input-group mb-3">
@@ -19,4 +21,4 @@ $formLogin = $this->controller->checkLogin ? "<input type='hidden' name='login' 
 		<div class="mb-3"><input class="btn btn-primary" type="submit" value="Добавить"/></div>
 	</form>
 </div>
-<?php $this->include("htmlBottom"); ?>
+@endsection

@@ -1,4 +1,6 @@
-<?php $this->include("htmlHead",array("name"=>"Профиль")); ?>
+@extends('mainHtml')
+@section('title')Профиль@endsection
+@section('content')
 <?php 
 if ($this->props()->type=="error") {
 ?>
@@ -36,4 +38,4 @@ if ($this->props()->type=="error") {
 	</form>
 	<?php } ?>
 </div>
-<?php $this->include("htmlBottom"); ?>
+@endsection

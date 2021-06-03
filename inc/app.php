@@ -1,6 +1,6 @@
 <?php
 class app extends router {
-	private $controller;
+	private $view,$controller,$viewVars;
 	function __construct() {
 		$this->connectDB();
 		$this->view = new view;
@@ -16,16 +16,15 @@ class app extends router {
 			if (method_exists($this->controller,"main"))
 				$this->controller->main(array("url"=>$arrPage['url'],"post"=>$arrPage['post'],"get"=>$arrPage['get']));
 		}
-		ob_start("app::obReplace");
+		
 		if ($arrPage['callback'])
-			echo call_user_func_array($arrPage['callback'],(is_string($arrPage['callback']) ? $arrPage['params'] : array($this->controller)));
-		ob_end_flush();	
+			echo $this->obReplace(call_user_func_array($arrPage['callback'],(is_string($arrPage['callback']) ? $arrPage['params'] : array($this->controller))));
 	}
 	function __destruct() {
 		$this->disconnectDB();
 	}
-	function obReplace($buffer) {
-		$buffer = preg_replace_callback("/\{{(.*)\}}/", function($var){
+	private function viewVar($buffer) {
+		return preg_replace_callback("/\{{(.*)\}}/", function($var){
 			$nameObj = $var[1];
 				if (preg_match("/(.*)\((.*)\)/",$nameObj,$var2)) {
 					$nameObjFnc = $var2[1];
@@ -36,6 +35,42 @@ class app extends router {
 				return $this->controller->$nameObj;
 			return $var[0];
 		}, $buffer);
+	}
+	
+	private function viewFncDouble($buffer) {
+		return preg_replace_callback("/\@([a-z0-9]{1,})\([\'|\"]([a-z0-9]{1,})[\'|\"]\)(.*)\@end\\1/isU", function($var){
+			if ($var[1] AND $var[2]) {
+				switch($var[1]) {
+					case "section":
+						$this->viewVars[$var[2]] = $var[3];
+					break;
+				}
+			}
+			
+		},$buffer);
+	}
+	private function viewFncSingle($buffer) {
+		return preg_replace_callback("/\@([a-z0-9]{1,})\([\'|\"]([a-z0-9]{1,})[\'|\"]\)/siU", function($var){
+				if ($var[1] AND $var[2]) {
+					switch($var[1]) {
+						case "extends":
+							return $this->obReplace($this->view->include($var[2]));
+						break;
+						case "include":
+							return $this->view->include($var[2]);
+						break;
+						case "setSection":
+							return $this->viewVars[$var[2]];
+						break;
+					}
+				}
+			
+		},$buffer);
+	}
+	function obReplace($buffer) {
+		$buffer = $this->viewVar($buffer);
+		$buffer = $this->viewFncDouble($buffer);
+		$buffer = $this->viewFncSingle($buffer);
 		return $buffer;
 	}
 }
