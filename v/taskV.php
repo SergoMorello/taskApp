@@ -1,4 +1,5 @@
 @extends('mainHtml')
+@section('title')Задача@endsection
 @section('content')
 <?php 
 $arrTask = $this->controller->getTask(); 
