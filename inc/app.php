@@ -1,6 +1,6 @@
 <?php
 class app extends router {
-	private $view,$controller,$viewVars;
+	private $view,$controller,$viewVars,$viewSection;
 	function __construct() {
 		$this->connectDB();
 		$this->view = new view;
@@ -24,13 +24,37 @@ class app extends router {
 		$this->disconnectDB();
 	}
 	private function viewVar($buffer) {
-		return preg_replace_callback("/\{{(.*)\}}/", function($var){
+		return preg_replace_callback("/{{(.*)}}/", function($var){
+			if ($this->viewVars)
+				foreach($this->viewVars as $viewVarName=>$viewVarVal)
+					${$viewVarName} = $viewVarVal;
+					
 			$nameObj = $var[1];
-				if (preg_match("/(.*)\((.*)\)/",$nameObj,$var2)) {
-					$nameObjFnc = $var2[1];
-					if (method_exists($this->controller,$nameObjFnc))
-						return $this->controller->$nameObjFnc(...explode(",",preg_replace("/[\'|\"]/","",$var2[2])));
+			
+			if (isset(${$nameObj}))
+				return ${$nameObj};
+			
+			if (preg_match("/(.*)[\s|\S]=[\s|\S]([\"|']{1,})(.*)\\2|(.*)[\s|\S]=[\s|\S](.*)/",$nameObj,$var2)) {
+				if ($var2[3])
+					$this->viewVars[$var2[1]] = $var2[3];
+				if ($var2[5]) {
+					if (isset(${$var2[5]}))
+						$this->viewVars[$var2[4]] = ${$var2[5]};
 				}
+				return;
+			}
+			//print_r($nameObj);
+			if (preg_match("/([\S|^=]{1,})[^a-z0-9]{0,}\=[^a-z0-9]{0,}([^=|\s]{1,})\((.*)\)|([^=\s]{1,})\((.*)\)/",$nameObj,$var2)) {
+				
+				if ($var2[4]) {
+					$nameObjFnc = $var2[4];
+					if (method_exists($this->controller,$nameObjFnc))
+						return $this->controller->$nameObjFnc(...explode(",",preg_replace("/[\'|\"]/","",$var2[5])));
+				}
+				if ($var2[1]) {
+					return 321;
+				}
+			}
 			if (property_exists($this->controller,$nameObj))
 				return $this->controller->$nameObj;
 			return $var[0];
@@ -42,7 +66,7 @@ class app extends router {
 			if ($var[1] AND $var[2]) {
 				switch($var[1]) {
 					case "section":
-						$this->viewVars[$var[2]] = $var[3];
+						$this->viewSection[$var[2]] = $var[3];
 					break;
 				}
 			}
@@ -59,7 +83,7 @@ class app extends router {
 							return $this->viewVar($this->view->include($var[2]));
 						break;
 						case "setSection":
-							return $this->viewVars[$var[2]];
+							return $this->viewSection[$var[2]];
 						break;
 					}
 				}

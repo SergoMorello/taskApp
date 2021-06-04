@@ -1,5 +1,10 @@
 <?php $link = $this->request()->route; ?>
 
+{{test = 'qwwwww'}}
+
+{{test2 = test}}
+
+	{{qww=test2()}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="navbar-collapse" id="navbarNav">
 		<ul class="navbar-nav">
