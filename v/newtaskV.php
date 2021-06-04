@@ -5,7 +5,7 @@
 : "<input class='form-control' type='text' name='login' id='login' placeholder='Логин' required />";
 ?>
 <div class="input-group mb-3">
-	<form method="post" action="/taskdo/add/">
+	<form method="post" action="{{url('taskWork','add')}}">
 		<div class="form-floating mb-3">
 			<?php echo $formLogin; ?>
 			<label for="login">Логин</label>

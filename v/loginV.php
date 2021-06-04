@@ -14,7 +14,7 @@ if ($this->props()->type=="error") {
 	<?php
 		if ($rowUser=$this->controller->checkLogin) {		
 	?>
-	<form method="post" action="/login/do/logout">
+	<form method="post" action="{{url('loginWork','logout')}}">
 		<div class="form-floating mb-3">
 			<input class="form-control" type="text" id="login" placeholder="Логин" value="<?php echo $rowUser['login']; ?>" disabled />
 			<label for="login">Логин</label>
@@ -25,7 +25,7 @@ if ($this->props()->type=="error") {
 		}else{
 			
 	?>
-	<form method="post" action="/login/do/submit" autocomplete="off">
+	<form method="post" action="{{url('loginWork','submit')}}" autocomplete="off">
 		<div class="form-floating mb-3">
 			<input class="form-control" type="text" name="login" id="login" placeholder="Логин" required />
 			<label for="login">Логин</label>

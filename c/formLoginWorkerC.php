@@ -9,12 +9,15 @@ class formLoginWorker extends controller {
 		if ($props->type=="submit")
 			if ($id = $this->model->checkLogin($login,$pass)) {
 				if ($this->model->setLogin($id,$login,$pass))
-					$this->redirect("/");
+					$this->redirect($this->url("home"));
 			}else
-				$this->redirect("/login/error");
+				$this->redirect($this->url("login","error"));
+		else
 		if ($props->type=="logout") {
 			$this->model->clearLogin();
-			$this->redirect("/login");
+			$this->redirect($this->url("login"));
 		}
+		else
+			$this->redirect($this->url("login"));
 	}
 }

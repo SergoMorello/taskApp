@@ -23,7 +23,7 @@ if ($arrTask) {
 			<label for="email">Почта</label>
 		</div>
 		<?php if ($this->controller->checkLogin['admin']>0) { ?>
-		<form method="post" action="/taskdo/update/<?php echo $arrTask['id']; ?>" autocomplete="off">
+		<form method="post" action="{{url('taskWork','update',<?php echo $arrTask['id']; ?>)}}" autocomplete="off">
 			<div class="form-floating mb-3">
 				<textarea class="form-control" name="text" placeholder="Текст задачи"><?php echo $arrTask['text']; ?></textarea>
 				<label for="text">Тексти задачи</label>

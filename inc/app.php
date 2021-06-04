@@ -29,7 +29,7 @@ class app extends router {
 				if (preg_match("/(.*)\((.*)\)/",$nameObj,$var2)) {
 					$nameObjFnc = $var2[1];
 					if (method_exists($this->controller,$nameObjFnc))
-						return $this->controller->$nameObjFnc($var2[2]);
+						return $this->controller->$nameObjFnc(...explode(",",preg_replace("/[\'|\"]/","",$var2[2])));
 				}
 			if (property_exists($this->controller,$nameObj))
 				return $this->controller->$nameObj;
@@ -46,7 +46,6 @@ class app extends router {
 					break;
 				}
 			}
-			
 		},$buffer);
 	}
 	private function viewFncSingle($buffer) {
@@ -57,14 +56,13 @@ class app extends router {
 							return $this->obReplace($this->view->include($var[2]));
 						break;
 						case "include":
-							return $this->view->include($var[2]);
+							return $this->viewVar($this->view->include($var[2]));
 						break;
 						case "setSection":
 							return $this->viewVars[$var[2]];
 						break;
 					}
 				}
-			
 		},$buffer);
 	}
 	function obReplace($buffer) {

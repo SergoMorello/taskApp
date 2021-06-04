@@ -1,26 +1,32 @@
 <?php
-router::get("/","home",function($obj) {
+router::get("/","home",function() {
 	return view::show("home");
-});
-router::get("/sort/{page}/{name}/{type}","home",function($obj) {
+})->name("home");
+
+router::get("/sort/{page}/{name}/{type}","home",function() {
 	return view::show("home");
-});
-router::get("/newtask","login",function($obj) {
+})->name("sort");
+
+router::get("/newtask","login",function() {
 	return view::show("newtask");
-});
-router::get("/task/{id}","task",function($obj) {
-	return view::show("task");
-});
-router::get("/task/{id}/{type}","task",function($obj) {
-	return view::show("task");
-});
-router::post("/taskdo/{type}/{id}","formTaskWorker");
+})->name("newTask");
 
-router::get("/login/{type}","login",function($obj) {
+router::get("/task/{id}","task",function() {
+	return view::show("task");
+})->name("taskShow");
+
+router::get("/task/{id}/{type}","task",function() {
+	return view::show("task");
+})->name("taskShowRes");
+
+router::post("/taskdo/{type}/{id}","formTaskWorker")->name("taskWork");
+
+router::get("/login/{type}","login",function() {
 	return view::show("login");
-});
-router::post("/login/do/{type}","formLoginWorker");
+})->name("login");
 
-router::get("/admin","admin",function($obj) {
+router::post("/login/do/{type}","formLoginWorker")->name("loginWork");
+
+router::get("/admin","admin",function() {
 	return view::show("admin");
 });
