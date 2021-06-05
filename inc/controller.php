@@ -22,7 +22,7 @@ class controller extends core {
 			return array_shift($rep);
 		},$url);
 	}
-	function ttt() {
-		return 123;
+	function route() {
+		return $this->request()->route;
 	}
 }

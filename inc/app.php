@@ -34,7 +34,7 @@ class app extends router {
 			if (isset(${$nameObj}))
 				return ${$nameObj};
 			
-			if (preg_match("/(.*)[\s|\S]=[\s|\S]([\"|']{1,})(.*)\\2|(.*)[\s|\S]=[\s|\S](.*)/",$nameObj,$var2)) {
+			if (preg_match("/([\S|^=]{1,})[^a-z0-9]{0,}\=[\s|\S]([\"|']{1,})(.*)\\2|([\S|^=]{1,})[^a-z0-9]{0,}\=[^a-z0-9]{0,}([^()\s]{1,})[\s]/",$nameObj,$var2)) {
 				if ($var2[3])
 					$this->viewVars[$var2[1]] = $var2[3];
 				if ($var2[5]) {
@@ -43,7 +43,6 @@ class app extends router {
 				}
 				return;
 			}
-			//print_r($nameObj);
 			if (preg_match("/([\S|^=]{1,})[^a-z0-9]{0,}\=[^a-z0-9]{0,}([^=|\s]{1,})\((.*)\)|([^=\s]{1,})\((.*)\)/",$nameObj,$var2)) {
 				
 				if ($var2[4]) {
@@ -52,7 +51,12 @@ class app extends router {
 						return $this->controller->$nameObjFnc(...explode(",",preg_replace("/[\'|\"]/","",$var2[5])));
 				}
 				if ($var2[1]) {
-					return 321;
+					$nameObjFnc = $var2[2];
+					if (method_exists($this->controller,$nameObjFnc)) {
+						$this->viewVars[$var2[1]] = $this->controller->$nameObjFnc(...explode(",",preg_replace("/[\'|\"]/","",$var2[3])));
+						$this->viewVars[$var2[1]] = $this->viewVars[$var2[1]] ? $this->viewVars[$var2[1]] : "";
+						return;
+					}
 				}
 			}
 			if (property_exists($this->controller,$nameObj))
